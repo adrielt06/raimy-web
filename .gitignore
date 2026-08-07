@@ -1,3 +1,5 @@
 .env
-CLAUDE.md
-ROADMAP.md
+.env.local
+.env.production
+.claude.local.md
+/ROADMAP.md
