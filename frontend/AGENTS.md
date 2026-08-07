@@ -1,5 +1,11 @@
 # AGENTS.md (frontend)
 
+## Project Setup
+
+- Angular CLI pinned to `22.1.3` — install with `npm install -g @angular/cli@22.1.3`, don't use `@latest` (verify exact version against npm before bumping).
+- Routing: enabled (`app.routes.ts` + `provideRouter`). Stylesheet: SCSS. SSR/SSG: disabled.
+- Dev server: `ng serve`, default port `4200` — doesn't conflict with backend (`8080`), Postgres (`5432`), or pgAdmin (`5050`).
+
 You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## TypeScript Best Practices
