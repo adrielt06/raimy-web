@@ -156,6 +156,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
+					<!-- Surefire forkea con cwd=${basedir} (backend/), donde no está el .env.
+					     Temporal: reemplazar por Testcontainers al agregar migraciones Flyway. -->
+					<workingDirectory>${project.basedir}/..</workingDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -2,5 +2,5 @@
 .env.local
 .env.production
 .claude.local.md
-/ROADMAP.md
-/docs
+.claude/settings.local.json
+/ROADMAP.local.md

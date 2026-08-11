@@ -1,12 +1,13 @@
 # AGENTS.md (frontend)
 
+You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+
 ## Project Setup
 
 - Angular CLI pinned to `22.1.3` — install with `npm install -g @angular/cli@22.1.3`, don't use `@latest` (verify exact version against npm before bumping).
 - Routing: enabled (`app.routes.ts` + `provideRouter`). Stylesheet: SCSS. SSR/SSG: disabled.
 - Dev server: `ng serve`, default port `4200` — doesn't conflict with backend (`8080`), Postgres (`5432`), or pgAdmin (`5050`).
-
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+- Import `environments/environment`, never `environments/environment.development` — naming the dev file directly bypasses the `fileReplacements` in `angular.json` and ships the dev URL to the production bundle.
 
 ## TypeScript Best Practices
 
@@ -64,3 +65,9 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use the `providedIn: 'root'` option for singleton services
 - Prefer the `@Service` decorator over `@Injectable({providedIn: 'root'})` for new singleton services (Angular v22+)
 - Use the `inject()` function instead of constructor injection
+
+## Testing
+
+- One-shot run: `npx ng test --watch=false`.
+- Testing components that use `httpResource()`: `resource()` registers its own `PendingTasks` entry while loading, so `fixture.whenStable()` hangs until the request is answered — `provideHttpClientTesting()` setting `REQUESTS_CONTRIBUTE_TO_STABILITY: false` only covers `HttpClient`, not the resource. Pattern: `detectChanges()` → `TestBed.inject(HttpTestingController).expectOne(url).flush(body)` → `await whenStable()`.
+- `TestBed` needs both `provideHttpClient()` and `provideHttpClientTesting()`; the testing one only swaps `HttpBackend`.

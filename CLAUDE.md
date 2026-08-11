@@ -4,4 +4,6 @@ Project instructions live in [AGENTS.md](./AGENTS.md) (vendor-neutral, shared wi
 
 @AGENTS.md
 
-Personal, machine-specific preferences live in `.claude.local.md` (gitignored, not shared).
+Personal, machine-specific preferences live in `.claude.local.md` (gitignored, not shared). Import:
+
+@.claude.local.md

@@ -1,0 +1,7 @@
+{
+  // Los docs del repo usan bullets largos de una sola línea a propósito
+  // (ver AGENTS.md). El ancho de línea no aporta nada acá.
+  "config": {
+    "MD013": false
+  }
+}
