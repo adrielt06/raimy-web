@@ -9,5 +9,5 @@ los cambios y no solo el diff.
 
 - Nombre sugerido: `plan-<fase>-<feature>.md`, por ejemplo
   `plan-fase1-crud-noticias.md`.
-- El orden de las fases y sus checkpoints están en `../ROADMAP.md`.
+- El orden de las fases y sus checkpoints están en `../README.md`.
 - Un plan cumplido puede borrarse: el historial de Git lo conserva.

@@ -2,7 +2,7 @@
 
 ## Project Stack
 
-Target stack for the full roadmap (see `ROADMAP.md`), not current state — only Postgres and pgAdmin exist today, in `docker-compose.yml`.
+Target stack for the full roadmap (see `README.md`), not current state — only Postgres and pgAdmin exist today, in `docker-compose.yml`.
 
 - Frontend: Angular
 - Backend: Spring Boot, Java 21
@@ -17,26 +17,18 @@ Target stack for the full roadmap (see `ROADMAP.md`), not current state — only
 Run everything from the repository root.
 
 - Infra: `docker compose up -d` — Postgres `5432`, pgAdmin `5050`.
-- Backend tests: `./backend/mvnw -f backend/pom.xml test` — requires Postgres running (see Backend).
+- Backend tests: `./backend/mvnw -f backend/pom.xml test` — requires Postgres running (see `backend/AGENTS.md`).
 - Frontend: `cd frontend`, then `ng serve` (`4200`), `ng build`, `npx ng test --watch=false`.
 
 ## Layout
 
-- `backend/` (Spring Boot, base package `com.raymi.backend`) · `frontend/` (Angular) · `docs/` (per-phase plans) · `ROADMAP.md` (phase order and checkpoints).
+- `backend/` (Spring Boot, base package `com.raymi.backend`) · `frontend/` (Angular) · `docs/` (per-phase plans) · `README.md` (phase order and checkpoints).
 - Package by feature on both sides, not layer-first: `com.raymi.backend.health` holds its controller and DTO together; `frontend/src/app/health/` holds its component. No `controllers/`, `services/`, `models/` folders.
 
 ## Conventions
 
 - All Markdown must pass markdownlint before being considered done.
 - Any implementation plan proposed before writing code must be written to `docs/` as a Markdown file (e.g. `docs/plan-<phase>-<feature>.md`), not left in the chat. It is committed with the work it describes, so reviewers can see the reasoning behind a change.
-
-## Backend
-
-- The backend process's working directory must be the repository root (not `backend/`) — required for `.env`-loading dependencies (`springboot4-dotenv`) to find the file.
-- Spring Boot 4 needs `me.paulschwarz:springboot4-dotenv` (not the generic `spring-dotenv`) to auto-load `.env` — the generic artifact resolves fine but its loader never registers on Boot 4.
-- This project runs Spring Boot 4.1.0 / Spring Security 7.x / Spring Framework 7.x — new majors where most tutorials and docs still target Boot 2/3 and Security 5/6, so package paths and method signatures can be stale (e.g. `@WebMvcTest` lives in `org.springframework.boot.webmvc.test.autoconfigure`, not the old `org.springframework.boot.test.autoconfigure.web.servlet`; `HttpSecurity.build()` no longer declares `throws Exception`). Verify against the real jar in `~/.m2` with `javap -classpath <jar> <class>` before trusting a snippet.
-- Maven Surefire forks the test JVM with `workingDirectory=${basedir}` (i.e. `backend/`), so `.env` isn't found there no matter where you invoke `mvnw` from. `backend/pom.xml` compensates with `<workingDirectory>${project.basedir}/..</workingDirectory>` — a temporary fix that makes `mvn test` require Postgres running; replace it with Testcontainers when Flyway migrations arrive.
-- Mockito's inline mock maker self-attaches a Java agent by default, which JDK dynamic-agent-loading restrictions (JEP 451) are phasing out. `backend/pom.xml` already resolves `mockito-core` via `maven-dependency-plugin` and passes it as `-javaagent` through `maven-surefire-plugin`'s `argLine` — don't remove this or the self-attach warnings come back.
 
 ## Local Infrastructure (docker-compose.yml)
 
